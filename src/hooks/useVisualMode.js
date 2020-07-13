@@ -21,7 +21,6 @@ export default function useVisualMode(initial) {
  }
 
  function back() {
-   console.log("history is here >>> ", history);
    //set mode to the previous item in the history array
    if (history.length > 1){
     setMode(history[history.length - 2]);

@@ -4,64 +4,76 @@ import Empty from "components/Appointment/Empty";
 import Form from "components/Appointment/Form";
 import Show from "components/Appointment/Show";
 import useVisualMode from "hooks/useVisualMode";
-
+import Status from "components/Appointment/Status";
+import Confirm from "components/Appointment/Confirm";
+import Error from "components/Appointment/Error";
 import "components/Appointment/styles.scss";
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "2pm",
-    interview: {
-      student: "Snoop Dog",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 4,
-    time: "10am",
-    interview: {
-      student: "Martha Simpson",
-      interviewer: {
-        id: 3,
-        name: "Mildred Nazir",
-        avatar: "https://i.imgur.com/T2WwVfS.png",
-      }
-    }
-  },
-  {
-    id: 5,
-    time: "9am",
-  }
-];
+// import Application from "components/Application";
+
+
 
 export default function Appointment(props) {
+ 
+  // console.log('props.interviewer from index .....>> ', props.interviewer)
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
+  // const CANCEL = "CANCEL";
+  // const STATUS = "STATUS";
+  const CONFIRM = "CONFIRM";
+  const EDIT = "EDIT";
+  const DELETING = "DELETING";
+  const CANCELLING = "CANCELLING";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   const onAdd = () => {
     transition(CREATE);
   }
+ 
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+    transition(SAVING)
+    props.bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(() => {
+        // alert("aw hellll no");
+        transition(ERROR_SAVE, true)
+      })
+  }
+
+  function onDelete(){
+    transition(CONFIRM)
+  }
+
+  function onEdit() {
+    transition(CREATE)
+  }
+
+  function onCancel() {
+    back();
+  }
+  function onClose() {
+    transition(EMPTY)
+  }
+
+  function onConfirm() {
+    transition(DELETING, true)
+    props.cancelInterview(props.id)
+      .then(() =>{
+        transition(EMPTY)
+      })
+      .catch(() => {
+        transition(ERROR_DELETE, true)
+      })
+  }
   
+   
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -70,26 +82,41 @@ export default function Appointment(props) {
   return (
     <div>
     <Header time={props.time} />
-      {/* {props.interview && 
-      <Show 
-        student={props.interview.student} 
-        interviewer={props.interview.interviewer}
-        /> 
-        } */}
         {mode === SHOW && (
           <Show
             student={props.interview.student}
             interviewer={props.interview.interviewer}
-            onClick={props.onEdit}
-            onClick={props.onDelete}
+            onEdit={onEdit}
+            onDelete={onDelete}
             />
             )}
         {/* <article className="appointment"></article> */}
         {mode === EMPTY && <Empty onAdd={onAdd} />} 
         {mode === CREATE && <Form 
-          interviewers={ [] }
-          onCreate={props.onCreate}
+          interviewers={props.interviewers} 
+          onChange={props.interviewers.id}
+          // onCreate={props.onCreate}
+          onSave={save}
           onCancel={back}/>}
+        {mode === SAVING &&  <Status message="Saving"/>}
+        {mode === CANCELLING && <Status 
+          message="Cancelling"
+          onCancel={back}
+        />}
+        {mode === DELETING && <Status 
+          message="Deleting"
+          onDelete={onDelete}
+        />}
+        {/* {mode === SHOW && < Show />} */}
+        {mode === CONFIRM && <Confirm
+          onCancel={onCancel}
+          onConfirm={onConfirm}
+        />}
+        {mode === EDIT && <Status 
+          onEdit={onEdit}
+        />}
+        {mode === ERROR_DELETE && <Error message={"Try again another day"} onClose={onClose} />}
+        {mode === ERROR_SAVE && <Error message={"Call to confirm"} onClose={back} />}
         </div>
   );
 }

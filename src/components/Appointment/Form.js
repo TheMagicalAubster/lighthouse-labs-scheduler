@@ -2,9 +2,12 @@
 import React, { useState } from 'react';
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
-
+import Application from "components/Application";
 
 export default function Form(props) {
+  console.log("props is here >>>> ", props);
+  console.log("props.interviewer from form.js >>>>  ", props.interviewers)
+  
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
@@ -26,6 +29,7 @@ export default function Form(props) {
             type="text"
             placeholder="Enter Student Name"
             onChange={(event) => setName(event.target.value)}
+            onSubmit={event => event.preventDefault()}
             
           />
         </form>

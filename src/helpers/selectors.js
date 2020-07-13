@@ -17,6 +17,25 @@ export default function getAppointmentsForDay(state, day) {
   return appointmentObjs;
 }
 
+//getInterviewers below:
+export function getInterviewersForDay(state, day) {
+  //try to redo the for loop with reduce(), or def use forEach()
+    let interviewerIDs = [];
+    for(let dayObj of state.days){
+      if(day === dayObj.name) {
+        interviewerIDs = dayObj.interviewers;
+      }
+    }
+  
+    const interviewerArray = [];
+  //try to redo with map()
+    for(let interviewerID of interviewerIDs) {
+      interviewerArray.push(state.interviewers[interviewerID]);
+    }
+    return interviewerArray;
+  }
+
+//getInterview below:
 export function getInterview(state, interview) {
   if(interview === null) {
     return null;
