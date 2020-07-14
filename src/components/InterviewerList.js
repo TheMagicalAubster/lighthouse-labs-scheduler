@@ -1,11 +1,10 @@
 
 import React from "react";
 import InterviewerListItem from "./InterviewerListItem";
-import classNames from 'classnames';
-
+import "./InterviewerList.scss";
 
 export default function InterviewerList(props) {
-  
+  // console.log("Error thing is here from INTERVIEWERLIST >>> ", props.interviewers );
   const interviewers = props.interviewers.map(interviewer => {
     return ( 
       <InterviewerListItem 
@@ -19,13 +18,11 @@ export default function InterviewerList(props) {
     );
   });
   
-  // return interviewers; 
-  const InterviewerClass = classNames("interviewers", {
-    "interviewers__item--selected": props.selected
-  });
+ 
+
 
   return (
-    <section className={InterviewerClass}>
+    <section className="interviewers">
       <h4 className="interviewers__header text--light">interviewers</h4>
       <ul className="interviewers__list">{interviewers}</ul>
     </section>

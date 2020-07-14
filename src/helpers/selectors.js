@@ -18,66 +18,86 @@ export default function getAppointmentsForDay(state, day) {
 }
 
 //getInterviewers below:
-export function getInterviewersForDay(state, day) {
+export function getInterviewersForDay(state, selectedDay) {
+  // console.log("state is >>> ", state);
   //try to redo the for loop with reduce(), or def use forEach()
-    let interviewerIDs = [];
-    for(let dayObj of state.days){
-      if(day === dayObj.name) {
-        interviewerIDs = dayObj.interviewers;
-      }
-    }
-  
-    const interviewerArray = [];
-  //try to redo with map()
-    for(let interviewerID of interviewerIDs) {
-      interviewerArray.push(state.interviewers[interviewerID]);
-    }
-    return interviewerArray;
+  const [ dayObject = { interviewers: [] } ] = state.days.filter(day => selectedDay === day.name);
+  // console.log("dayObject is here >>> ", dayObject);
+
+  const blah = dayObject.interviewers.map(interviewerID => state.interviewers[interviewerID]);
+  return blah;
+
   }
 
-//getInterview below:
-export function getInterview(state, interview) {
-  if(interview === null) {
+
+  export function getInterview(state, interview) {
+    if (interview) {
+      return {...interview, interviewer: state.interviewers[interview.interviewer]};
+    }
     return null;
   }
 
-  let student;
-  let interviewerID;
-  let interviewInfo = {
-      "interviewer":  {
-        "avatar": "",
-        "id": -1,
-        "name": "",
-      },
-      "student": ""
-    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+// //getInterview below (left for now for potential code comparison):
+// export function getInterview(state, interview) {
+//   if(interview === null) {
+//     return null;
+//   }
+
+//   let student;
+//   let interviewerID;
+//   let interviewInfo = {
+//       "interviewer":  {
+//         "avatar": "",
+//         "id": -1,
+//         "name": "",
+//       },
+//       "student": ""
+//     };
   
   
-  
-  for(let interviewObj in state.appointments){
-    //finding the interviewer id in state.appointments.interview
-    //matching the interview with the given interview from state.
-    if(interview === state.appointments[interviewObj].interview) {
-      //setting interviewID = "number of the interviewer"
-      interviewerID = state.appointments[interviewObj].interview.interviewer;
-      interviewInfo.student = state.appointments[interviewObj].interview.student;
-    }
-  }
-  // console.log("interviewerID here >>>>>>> ", interviewerID);
+//   for(let interviewObj in state.appointments){
+//     //finding the interviewer id in state.appointments.interview
+//     //matching the interview with the given interview from state.
+//     if(interview === state.appointments[interviewObj].interview) {
+//       //setting interviewID = "number of the interviewer"
+//       interviewerID = state.appointments[interviewObj].interview.interviewer;
+//       interviewInfo.student = state.appointments[interviewObj].interview.student;
+//     }
+//   }
   
 
-  for (let Iid in Object.keys(state.interviewers)){
-    // console.log("Iid is here >>>> ", Iid )
-    if(interviewerID === Iid){
+//   for (let Iid in Object.keys(state.interviewers)){
+//     // console.log("Iid is here >>>> ", Iid )
+//     if(interviewerID === Iid){
 
-      interviewInfo.interviewer = state.interviewers[Iid];
+//       interviewInfo.interviewer = state.interviewers[Iid];
 
-    }
-  }
+//     }
+//   }
 
-return interviewInfo;
+// return interviewInfo;
 
-}
+// }
 
 
 

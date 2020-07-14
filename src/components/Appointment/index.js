@@ -14,13 +14,10 @@ import "components/Appointment/styles.scss";
 
 export default function Appointment(props) {
  
-  // console.log('props.interviewer from index .....>> ', props.interviewer)
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
-  // const CANCEL = "CANCEL";
-  // const STATUS = "STATUS";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
   const DELETING = "DELETING";
@@ -38,11 +35,11 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
+    console.log("interviewer is here >>> ", interviewer);
     transition(SAVING)
     props.bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(() => {
-        // alert("aw hellll no");
         transition(ERROR_SAVE, true)
       })
   }
@@ -78,36 +75,37 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-
+ console.log("props from Index is here >>>>>  ", props);
   return (
     <div>
     <Header time={props.time} />
         {mode === SHOW && (
           <Show
             student={props.interview.student}
+            interviewers={props.interviewers}
             interviewer={props.interview.interviewer}
             onEdit={onEdit}
             onDelete={onDelete}
             />
             )}
-        {/* <article className="appointment"></article> */}
         {mode === EMPTY && <Empty onAdd={onAdd} />} 
-        {mode === CREATE && <Form 
-          interviewers={props.interviewers} 
-          onChange={props.interviewers.id}
-          // onCreate={props.onCreate}
-          onSave={save}
-          onCancel={back}/>}
+        {mode === CREATE && (
+          <Form 
+            interviewers={props.interviewers} 
+            onChange={props.interviewers.id}
+            onSave={save}
+            onCancel={back}
+          />)}
         {mode === SAVING &&  <Status message="Saving"/>}
-        {mode === CANCELLING && <Status 
-          message="Cancelling"
-          onCancel={back}
-        />}
+        {mode === CANCELLING && (
+          <Status 
+            message="Cancelling"
+            onCancel={back}
+          />)}
         {mode === DELETING && <Status 
           message="Deleting"
           onDelete={onDelete}
         />}
-        {/* {mode === SHOW && < Show />} */}
         {mode === CONFIRM && <Confirm
           onCancel={onCancel}
           onConfirm={onConfirm}
