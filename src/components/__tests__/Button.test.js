@@ -11,9 +11,10 @@ it("renders without crashing", () => {
 });
 
 it("renders its `children` prop as text", () => {
-  const { getByText } = render(<Button>Default</Button>);
-  expect(getByText("Default")).toBeInTheDocument();
-});
+  const { getByText } = render(<Button>Default</Button>); //render function imported by react-testing-lib
+  expect(getByText("Default")).toBeInTheDocument(); //expect funct injected globally by jest
+});//getByText is a query returned by the render, and part of the dom-testing-lib
+//toBeInDocument is a matcher provided by jest-dom lib (configured in setupTests.js)
 
 it("renders a default button style", () => {
   const { getByText } = render(<Button>Default</Button>);
