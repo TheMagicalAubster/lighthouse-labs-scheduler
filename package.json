@@ -18,7 +18,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public --ci",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "cypress": "cypress open -P ."
   },
   "browserslist": {
     "production": [
@@ -53,6 +54,5 @@
       "<rootDir>/.git/"
     ]
   },
-  "proxy": "http://localhost:8001",
-  "secure": false
+  "proxy": "http://localhost:8001"
 }

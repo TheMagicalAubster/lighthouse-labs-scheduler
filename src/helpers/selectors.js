@@ -1,7 +1,6 @@
 
 
 export default function getAppointmentsForDay(state, day) {
-//try to redo the for loop with reduce(), or def use forEach()
   let appointmentIDs = [];
   for(let dayObj of state.days){
     if(day === dayObj.name) {
@@ -10,32 +9,24 @@ export default function getAppointmentsForDay(state, day) {
   }
 
   const appointmentObjs = [];
-//try to redo with map()
   for(let appointmentID of appointmentIDs) {
     appointmentObjs.push(state.appointments[appointmentID]);
   }
   return appointmentObjs;
 }
 
-//getInterviewers below:
 export function getInterviewersForDay(state, selectedDay) {
-  // console.log("state is >>> ", state);
-  //try to redo the for loop with reduce(), or def use forEach()
   const [ dayObject = { interviewers: [] } ] = state.days.filter(day => selectedDay === day.name);
-  // console.log("dayObject is here >>> ", dayObject);
-
-  const blah = dayObject.interviewers.map(interviewerID => state.interviewers[interviewerID]);
-  return blah;
-
+  return dayObject.interviewers.map(interviewerID => state.interviewers[interviewerID]);
   }
 
 
-  export function getInterview(state, interview) {
-    if (interview) {
-      return {...interview, interviewer: state.interviewers[interview.interviewer]};
-    }
-    return null;
+export function getInterview(state, interview) {
+  if (interview) {
+    return {...interview, interviewer: state.interviewers[interview.interviewer]};
   }
+  return null;
+}
 
 
 

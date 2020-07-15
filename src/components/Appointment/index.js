@@ -8,7 +8,6 @@ import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
 import Error from "components/Appointment/Error";
 import "components/Appointment/styles.scss";
-// import Application from "components/Application";
 
 
 
@@ -35,7 +34,6 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    console.log("interviewer is here >>> ", interviewer);
     transition(SAVING)
     props.bookInterview(props.id, interview)
       .then(() => transition(SHOW))
@@ -55,8 +53,9 @@ export default function Appointment(props) {
   function onCancel() {
     back();
   }
+
   function onClose() {
-    transition(EMPTY)
+    transition(SHOW)
   }
 
   function onConfirm() {
@@ -75,9 +74,8 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
- console.log("props from Index is here >>>>>  ", props);
   return (
-    <div>
+    <div data-testid="appointment">
     <Header time={props.time} />
         {mode === SHOW && (
           <Show

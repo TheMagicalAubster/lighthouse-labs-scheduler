@@ -31,7 +31,6 @@ export default function useApplicationData(initial) {
     } else {
       day.spots -= 1; 
     }
-    // console.log("state.days >>> ", state.days);
     return state.days;
   };
 
@@ -88,5 +87,4 @@ export default function useApplicationData(initial) {
   
 
 return { state, setDay, bookInterview, cancelInterview }
-
 }

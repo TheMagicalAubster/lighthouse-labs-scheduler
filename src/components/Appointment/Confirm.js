@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "components/Button";// import classNames from 'classnames';
+import Button from "components/Button";
 
 import "components/Appointment/styles.scss";
 
